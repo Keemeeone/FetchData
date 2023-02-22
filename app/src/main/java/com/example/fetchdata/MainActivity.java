@@ -3,7 +3,6 @@ package com.example.fetchdata;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.JsonReader;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,20 +13,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
+    //initializing the TextView
     TextView tv1;
     TextView tv2;
     TextView tv3;
@@ -47,24 +42,10 @@ public class MainActivity extends AppCompatActivity {
         tv4 = findViewById(R.id.tv3);
         tv4.setMovementMethod(new ScrollingMovementMethod());
     }
-    public static String jsonGetRequest(String urlQueryString) {
-        String json = null;
-        try {
-            URL url = new URL(urlQueryString);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setInstanceFollowRedirects(false);
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("charset", "utf-8");
-            connection.connect();
-            InputStream inStream = connection.getInputStream();
-            json = inStream.toString(); // input stream to string
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return json;
-    }
+
+    /**
+     * list Id 1
+     */
     public void click1(View view) {
         AssetManager assetManager = getAssets();
         try {
@@ -75,23 +56,29 @@ public class MainActivity extends AppCompatActivity {
             StringBuffer buffer = new StringBuffer();
             String line = reader.readLine();
 
-            while (line  != null) {
+            while (line != null) {
                 buffer.append(line + "\n");
                 line = reader.readLine();
             }
+            // get string from buffer
             String jsonData = buffer.toString();
 
+            // create JSONArray using jsonData
             JSONArray jsonArray = new JSONArray(jsonData);
             JSONArray sortArray = new JSONArray();
             JSONObject jsonObject;
 
+            // create List
             List<JSONObject> jsonValues = new ArrayList<>();
+
             StringBuilder str = new StringBuilder("Group by listId:1 \n");
 
+            //capturing the jsonArray in list
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonValues.add(jsonArray.getJSONObject(i));
             }
 
+            //sorting by name in list
             jsonValues.sort(new Comparator<JSONObject>() {
                 private static final String KEY_NAME = "name";
 
@@ -114,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 sortArray.put(jsonValues.get(i));
             }
 
+            // Grouping by listId
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonObject = sortArray.getJSONObject(i);
                 int id = jsonObject.getInt("id");
@@ -121,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 String name = jsonObject.getString("name");
                 for (int j = 0; j < 2; j++) {
                     if (listId == j) {
+                        // filter out name which is "" or null
                         if (!name.equals("") && !name.equals("null")) {
                             str.append(id).append(", ").append(listId).append(", ").append(name).append("\n");
                         }
@@ -137,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * list Id 2
+     */
     public void click2(View view) {
         AssetManager assetManager = getAssets();
 
@@ -152,19 +144,25 @@ public class MainActivity extends AppCompatActivity {
                 buffer.append(line + "\n");
                 line = reader.readLine();
             }
+            // get string from buffer
             String jsonData = buffer.toString();
 
+            // create JSONArray using jsonData
             JSONArray jsonArray = new JSONArray(jsonData);
             JSONArray sortArray = new JSONArray();
             JSONObject jsonObject;
 
+            // create List
             List<JSONObject> jsonValues = new ArrayList<>();
+
             StringBuilder str = new StringBuilder("Group by listId:2 \n");
 
+            //capturing the jsonArray in list
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonValues.add(jsonArray.getJSONObject(i));
             }
 
+            //sorting by name in list
             jsonValues.sort(new Comparator<JSONObject>() {
                 private static final String KEY_NAME = "name";
 
@@ -187,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
                 sortArray.put(jsonValues.get(i));
             }
 
+            // Grouping by listId
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonObject = sortArray.getJSONObject(i);
                 int id = jsonObject.getInt("id");
@@ -210,6 +209,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * list Id 3
+     */
     public void click3(View view) {
         AssetManager assetManager = getAssets();
 
@@ -225,19 +227,25 @@ public class MainActivity extends AppCompatActivity {
                 buffer.append(line + "\n");
                 line = reader.readLine();
             }
+            // get string from buffer
             String jsonData = buffer.toString();
 
+            // create JSONArray using jsonData
             JSONArray jsonArray = new JSONArray(jsonData);
             JSONArray sortArray = new JSONArray();
             JSONObject jsonObject;
 
+            // create List
             List<JSONObject> jsonValues = new ArrayList<>();
+
             StringBuilder str = new StringBuilder("Group by listId:3 \n");
 
+            //capturing the jsonArray in list
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonValues.add(jsonArray.getJSONObject(i));
             }
 
+            //sorting by name in list
             jsonValues.sort(new Comparator<JSONObject>() {
                 private static final String KEY_NAME = "name";
 
@@ -260,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
                 sortArray.put(jsonValues.get(i));
             }
 
+            // Grouping by listId
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonObject = sortArray.getJSONObject(i);
                 int id = jsonObject.getInt("id");
@@ -283,6 +292,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * list Id 4
+     */
     public void click4(View view) {
         AssetManager assetManager = getAssets();
 
@@ -298,19 +310,25 @@ public class MainActivity extends AppCompatActivity {
                 buffer.append(line + "\n");
                 line = reader.readLine();
             }
+            // get string from buffer
             String jsonData = buffer.toString();
 
+            // create JSONArray using jsonData
             JSONArray jsonArray = new JSONArray(jsonData);
             JSONArray sortArray = new JSONArray();
             JSONObject jsonObject;
 
+            // create List
             List<JSONObject> jsonValues = new ArrayList<>();
+
             StringBuilder str = new StringBuilder("Group by listId:4 \n");
 
+            //capturing the jsonArray in list
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonValues.add(jsonArray.getJSONObject(i));
             }
 
+            //sorting by name in list
             jsonValues.sort(new Comparator<JSONObject>() {
                 private static final String KEY_NAME = "name";
 
@@ -333,6 +351,7 @@ public class MainActivity extends AppCompatActivity {
                 sortArray.put(jsonValues.get(i));
             }
 
+            // Grouping by listId
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonObject = sortArray.getJSONObject(i);
                 int id = jsonObject.getInt("id");
